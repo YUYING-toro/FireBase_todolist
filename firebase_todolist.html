@@ -5,19 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDoList</title>
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js">// 210906 新版9.0.0 不可運</script>  
-
-    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
-    <!-- <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-analytics.js"></script> -->
-
-    <!-- Add Firebase products that you want to use -->
-    <!-- <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>  
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
     <style>
+        body{
+            top: 10px;
+            max-width: 400px;
+            position: relative;
+            line-height: 1.5rem;
+            margin: auto;
+        }
         .box{
-            display: flex;
-            justify-content: center;
-            align-content: center;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            max-width: 300px;
         }
     </style>
 </head>
@@ -47,10 +52,11 @@
         messagingSenderId: "863092102325",
         appId: "1:863092102325:web:98d118d86c33044afe5afc"
         };
-        
+
+   
         firebase.initializeApp(firebaseConfig);
         var database=firebase.database();
-
+        // database.ref().set('toro');
 
         //submot action
         let text = document.querySelector('.text');
@@ -71,7 +77,7 @@
                 console.log(typeof(str));
                 list.innerHTML = str;
             })
-     
+        
 
     </script>
 </body>
