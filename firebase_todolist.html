@@ -5,7 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDoList</title>
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>  
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js">// 210906 新版9.0.0 不可運</script>  
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-analytics.js"></script> -->
+
+    <!-- Add Firebase products that you want to use -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script> -->
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
     <style>
         body{
@@ -14,6 +20,10 @@
             position: relative;
             line-height: 1.5rem;
             margin: auto;
+            margin-top: 3rem;
+            border: 2px solid darkorange;
+            border-radius: 8px;
+
         }
         .box{
             position: absolute;
@@ -23,21 +33,36 @@
             left: 0;
             bottom: 0;
             max-width: 300px;
+            
+        }
+        .send{
+            background-color: orange;
+            padding: 0.3rem 0.5rem;
+            border-radius: 8px;
+            border-color: none;
+        }
+        .send:hover{
+            background-color: darkorange;
+            box-shadow: darkslategrey;
+
         }
     </style>
 </head>
 <body>
     <div class="box">
-        <label>What I have to do....</label>
+        <h1>What I have to do....</h1>
         <input type="text" class="text">
-        <br>
+        
         <button type="submit" class="send">Add</button>
         <hr>
         <div>
-            <p>I have to do.....</p>
-            <ul id="list">
+            <h3>I have to do.....</h3>
+            <!-- <ul id="list">
 
-            </ul>
+            </ul> -->
+            <div class="list">
+
+            </div>
         </div>
     </div>
 
@@ -54,6 +79,7 @@
         };
 
    
+        ///不知如何找到 firebase套件
         firebase.initializeApp(firebaseConfig);
         var database=firebase.database();
         // database.ref().set('toro');
@@ -61,7 +87,7 @@
         //submot action
         let text = document.querySelector('.text');
         let send = document.querySelector('.send');
-        let list = document.querySelector('#list');
+        let list = document.querySelector('.list');
         
         send.addEventListener("click",function(){
             database.ref('todolist').push({todo: text.value});  //inout a obj give a key           
@@ -72,11 +98,20 @@
              var str = "";
                 let content = snapshot.val();
                 for(var item in content){
-                    str += "<li>" + content[item].todo + "</li>";
+                    str += "<input type='checkbox' data-key='"+item+"'>" + content[item].todo +"<br>";
+                    //list.innerHTML="<li>"+content[item]+"</li>"; //Cannot set properties of null
                 };
                 console.log(typeof(str));
                 list.innerHTML = str;
             })
+        //delet
+        list.addEventListener("click",function(e){
+            //if I use ul+li then >> if (e.target.nodeName="LI"){remove}
+            // console.log(e.target.dataset.key)
+            // console.log(e.target)
+            var key = e.target.dataset.key;
+            database.ref('todolist').child(key).remove();
+        })
         
 
     </script>
